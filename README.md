@@ -19,8 +19,8 @@ docker run --name demo_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234$ -d mysql:
 
 ### SonarQube
 ```bash
-docker pull sonarqube:8.6-community
-docker run -d --name demo_sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:8.6-community
+docker pull sonarqube:8-community
+docker run -d --name demo_sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:8-community
 ```
 
 ## Architecture
