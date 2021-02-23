@@ -1,61 +1,130 @@
 package com.example.baseproject.model.response;
 
-public class BaseResponse<T> {
-    private int status;
-    private String message;
-    private T data;
+import com.example.baseproject.common.constrant.StringResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-    public int getStatus() {
-        return status;
+/**
+ * DTO trả về thông tin lỗi
+ */
+public class BaseResponse {
+
+    public static <T> SystemResponse<T> from(HttpStatus status, String msg) {
+        return new SystemResponse<>(status.value(), msg);
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    /**
+     * Trả về lỗi không có quyền truy cập
+     * @param msg
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> unauthorized(String msg) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new SystemResponse<>(401, msg));
     }
 
-    public String getMessage() {
-        return message;
+    /**
+     * Trả về lỗi không có quyền truy cập
+     * @param code
+     * @param msg
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> unauthorized(int code, String msg) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new SystemResponse<>(code, msg));
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    /**
+     * Trả về lỗi truy vấn
+     * @param msg
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> badRequest(String msg) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SystemResponse<>(400, msg));
     }
 
-    public T getData() {
-        return data;
+    /**
+     * Trả về lỗi truy vấn
+     * @param code
+     * @param msg
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> badRequest(int code, String msg) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SystemResponse<>(code, msg));
     }
 
-    public void setData(T data) {
-        this.data = data;
+    /**
+     * Trả về lỗi truy vấn
+     * @param code
+     * @param msg
+     * @param data
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> badRequest(int code, String msg, T data) {
+        return ResponseEntity.badRequest().body(new SystemResponse<>(code, msg, data));
     }
 
-    public BaseResponse<T> success(String message) {
-        BaseResponse<T> baseResponse = new BaseResponse<T>();
-        baseResponse.setStatus(200);
-        baseResponse.setMessage(message);
-        return baseResponse;
+    /**
+     * Trả về thông báo thành công
+     * @param code
+     * @param msg
+     * @param body
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> ok(int code, String msg, T body) {
+        return ResponseEntity.ok(new SystemResponse<>(code, msg, body));
     }
 
-    public BaseResponse<T> success(String message, T data) {
-        BaseResponse<T> baseResponse = new BaseResponse<T>();
-        baseResponse.setStatus(200);
-        baseResponse.setMessage(message);
-        baseResponse.setData(data);
-        return baseResponse;
+    /**
+     * Trả về thông báo thành công
+     * @param body
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> ok(T body) {
+        return ResponseEntity.ok(new SystemResponse<T>(100, StringResponse.SUCCESS.name(), body));
     }
 
-    public BaseResponse<T> success(int statusCode, String message, T data) {
-        BaseResponse<T> baseResponse = new BaseResponse<T>();
-        baseResponse.setStatus(statusCode);
-        baseResponse.setMessage(message);
-        baseResponse.setData(data);
-        return baseResponse;
+    /**
+     * Trả về thông báo thành công
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> ok() {
+        return ResponseEntity.ok(new SystemResponse<T>(100, StringResponse.SUCCESS.name()));
     }
 
-    public BaseResponse<T> error(int StatusCode, String message) {
-        BaseResponse<T> baseResponse = new BaseResponse<T>();
-        baseResponse.status = StatusCode;
-        baseResponse.message = message;
-        return baseResponse;
+    /**
+     * Trả về thông báo thành công
+     * @param code
+     * @param message
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> ok(int code, String message) {
+        return ResponseEntity.ok(new SystemResponse<>(code, message));
     }
+
+    /**
+     * Trả về thông báo thành công
+     * @param message
+     * @param body
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<SystemResponse<T>> ok(String message, T body) {
+        return ResponseEntity.ok(new SystemResponse<>(100, message, body));
+    }
+
+//    public static <T> ResponseEntity<SystemResponse<T>> httpError(HttpErrorException e) {
+//        return ResponseEntity
+//                .status(e.getStatus())
+//                .body(from(e.getStatus(), e.getMessage()));
+//    }
+
 }
+

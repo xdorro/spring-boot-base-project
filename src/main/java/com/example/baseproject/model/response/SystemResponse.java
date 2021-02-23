@@ -1,4 +1,4 @@
-package com.example.baseproject.model.dto;
+package com.example.baseproject.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -17,14 +17,14 @@ public class SystemResponse<T> {
     private T data;
 
     public SystemResponse(int status, String message) {
-        this.status = status;
-        this.error = message;
+        this.setStatus(status);
+        this.setMessage(message);
     }
 
     public SystemResponse(int status, String message, T data) {
-        this.status = status;
-        this.error = message;
-        this.data = data;
+        this.setStatus(status);
+        this.setMessage(message);
+        this.setData(data);
     }
 
     public int getStatus() {
@@ -35,12 +35,12 @@ public class SystemResponse<T> {
         this.status = status;
     }
 
-    public String getError() {
-        return error;
+    public String getMessage() {
+        return message;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {
